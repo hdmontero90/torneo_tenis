@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @OA\Schema(
@@ -19,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Jugador extends Model
 {
+    use HasFactory;
+
     // Especificar el nombre de la tabla
     protected $table = 'jugadores';
 
