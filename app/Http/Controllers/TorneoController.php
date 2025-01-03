@@ -8,10 +8,44 @@ use App\Http\Requests\TorneoPostRequest;
 use App\Models\Torneo;
 use App\Models\Jugador;
 
+/**
+ * @OA\Info(title="API de Torneos", version="1.0")
+ * @OA\Tag(name="Torneos", description="Gestión de torneos y simulaciones")
+ */
 class TorneoController extends Controller
 {
     /**
-     * Listado de torneos jugados
+     * Listado de torneos jugados.
+     *
+     * @OA\Get(
+     *     path="/api/torneo/listado",
+     *     tags={"Torneos"},
+     *     summary="Obtener listado de torneos",
+     *     @OA\Parameter(
+     *         name="fecha",
+     *         in="query",
+     *         required=false,
+     *         description="Fecha mínima de los torneos",
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Parameter(
+     *         name="genero",
+     *         in="query",
+     *         required=false,
+     *         description="Género del torneo (masculino o femenino)",
+     *         @OA\Schema(type="string", enum={"masculino", "femenino"})
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Listado de torneos completados",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="mensaje", type="string"),
+     *             @OA\Property(property="torneos", type="array",
+     *                 @OA\Items(ref="#/components/schemas/Torneo")
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function indexTorneo(Request $request)
     {
@@ -36,9 +70,25 @@ class TorneoController extends Controller
     }
 
     /**
-     * Creá el torneo y hace una simulación del mismo
-     * devolviendo el torneo con el ganador y los jugadores
-     * que participaron
+     * Crear y simular un torneo.
+     *
+     * @OA\Post(
+     *     path="/api/torneo/simular",
+     *     tags={"Torneos"},
+     *     summary="Crear y simular un torneo",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/TorneoRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Torneo creado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="mensaje", type="string"),
+     *             @OA\Property(property="torneo", ref="#/components/schemas/Torneo")
+     *         )
+     *     )
+     * )
      */
     public function crearTorneo(TorneoPostRequest $request): JsonResponse
     {

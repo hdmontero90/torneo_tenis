@@ -4,6 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *     schema="Torneo",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="genero", type="string"),
+ *     @OA\Property(property="estado", type="string"),
+ *     @OA\Property(property="ganador_id", type="integer"),
+ *     @OA\Property(property="fecha_jugado", type="string", format="date"),
+ *     @OA\Property(property="jugadores", type="array",
+ *         @OA\Items(ref="#/components/schemas/Jugador")
+ *     )
+ * )
+ */
 class Torneo extends Model
 {
 

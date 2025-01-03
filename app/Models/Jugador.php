@@ -4,6 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *     schema="Jugador",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="nombre", type="string"),
+ *     @OA\Property(property="genero", type="string"),
+ *     @OA\Property(property="nivel_habilidad", type="integer"),
+ *     @OA\Property(property="fuerza", type="integer", nullable=true),
+ *     @OA\Property(property="velocidad", type="integer", nullable=true),
+ *     @OA\Property(property="tiempo_reaccion", type="integer", nullable=true)
+ * )
+ */
 class Jugador extends Model
 {
     // Especificar el nombre de la tabla

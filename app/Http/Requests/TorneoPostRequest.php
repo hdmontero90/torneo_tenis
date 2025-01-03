@@ -19,6 +19,30 @@ class TorneoPostRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
+     /**
+     * @OA\Schema(
+     *     schema="TorneoRequest",
+     *     type="object",
+     *     required={"genero", "jugadores"},
+     *     @OA\Property(property="genero", type="string", description="Género del torneo", enum={"masculino", "femenino"}),
+     *     @OA\Property(
+     *         property="jugadores",
+     *         type="array",
+     *         description="Lista de jugadores que participan en el torneo",
+     *         @OA\Items(
+     *             type="object",
+     *             required={"nombre", "genero", "nivel_habilidad"},
+     *             @OA\Property(property="nombre", type="string", description="Nombre del jugador"),
+     *             @OA\Property(property="genero", type="string", description="Género del jugador", enum={"masculino", "femenino"}),
+     *             @OA\Property(property="nivel_habilidad", type="integer", description="Nivel de habilidad del jugador"),
+     *             @OA\Property(property="fuerza", type="integer", nullable=true, description="Fuerza del jugador"),
+     *             @OA\Property(property="velocidad", type="integer", nullable=true, description="Velocidad del jugador"),
+     *             @OA\Property(property="tiempo_reaccion", type="integer", nullable=true, description="Tiempo de reacción del jugador")
+     *         )
+     *     )
+     * )
+     */
     public function rules(): array
     {
         return [

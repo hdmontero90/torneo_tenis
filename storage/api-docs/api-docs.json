@@ -1,0 +1,235 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Torneos",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/torneo/listado": {
+            "get": {
+                "tags": [
+                    "Torneos"
+                ],
+                "summary": "Obtener listado de torneos",
+                "description": "Listado de torneos jugados.",
+                "operationId": "2ff39c7b428ad382530142bfae813928",
+                "parameters": [
+                    {
+                        "name": "fecha",
+                        "in": "query",
+                        "description": "Fecha mínima de los torneos",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "genero",
+                        "in": "query",
+                        "description": "Género del torneo (masculino o femenino)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "masculino",
+                                "femenino"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Listado de torneos completados",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string"
+                                        },
+                                        "torneos": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Torneo"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/torneo/simular": {
+            "post": {
+                "tags": [
+                    "Torneos"
+                ],
+                "summary": "Crear y simular un torneo",
+                "description": "Crear y simular un torneo.",
+                "operationId": "a041545cdededb784556b3d073d3222a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TorneoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Torneo creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensaje": {
+                                            "type": "string"
+                                        },
+                                        "torneo": {
+                                            "$ref": "#/components/schemas/Torneo"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "TorneoRequest": {
+                "required": [
+                    "genero",
+                    "jugadores"
+                ],
+                "properties": {
+                    "genero": {
+                        "description": "Género del torneo",
+                        "type": "string",
+                        "enum": [
+                            "masculino",
+                            "femenino"
+                        ]
+                    },
+                    "jugadores": {
+                        "description": "Lista de jugadores que participan en el torneo",
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "nombre",
+                                "genero",
+                                "nivel_habilidad"
+                            ],
+                            "properties": {
+                                "nombre": {
+                                    "description": "Nombre del jugador",
+                                    "type": "string"
+                                },
+                                "genero": {
+                                    "description": "Género del jugador",
+                                    "type": "string",
+                                    "enum": [
+                                        "masculino",
+                                        "femenino"
+                                    ]
+                                },
+                                "nivel_habilidad": {
+                                    "description": "Nivel de habilidad del jugador",
+                                    "type": "integer"
+                                },
+                                "fuerza": {
+                                    "description": "Fuerza del jugador",
+                                    "type": "integer",
+                                    "nullable": true
+                                },
+                                "velocidad": {
+                                    "description": "Velocidad del jugador",
+                                    "type": "integer",
+                                    "nullable": true
+                                },
+                                "tiempo_reaccion": {
+                                    "description": "Tiempo de reacción del jugador",
+                                    "type": "integer",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Jugador": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "genero": {
+                        "type": "string"
+                    },
+                    "nivel_habilidad": {
+                        "type": "integer"
+                    },
+                    "fuerza": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "velocidad": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "tiempo_reaccion": {
+                        "type": "integer",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Torneo": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "genero": {
+                        "type": "string"
+                    },
+                    "estado": {
+                        "type": "string"
+                    },
+                    "ganador_id": {
+                        "type": "integer"
+                    },
+                    "fecha_jugado": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "jugadores": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Jugador"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Torneos",
+            "description": "Gestión de torneos y simulaciones"
+        }
+    ]
+}
